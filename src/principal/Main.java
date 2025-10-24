@@ -88,6 +88,8 @@ public class Main {
 
         } while (!escolhida);
 
+        System.out.println();
+
         try {
             mealy.gerarPPM(Palavras.values()[opc - 1]);
         } catch (IOException e) {

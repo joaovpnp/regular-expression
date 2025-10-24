@@ -46,7 +46,7 @@ public class MaquinaMealy {
             Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
 
         } catch (IOException e) {
-            System.err.println("[Verifique a pasta arquivos em mealy-machine]");
+            System.err.println("\n[Verifique a pasta arquivos em mealy-machine]");
         }
     }
 
