@@ -40,8 +40,7 @@ public abstract class AutomatoBuilder {
 
     protected static boolean isERsintaticamenteCorreta(String er) {
 
-        if (er == null) return false;
-        if (er.isEmpty() || er.isBlank()) return true;
+        if (er == null || er.isEmpty() || er.isBlank()) return false;
 
         Stack<Character> pilhaParenteses = new Stack<>();
 

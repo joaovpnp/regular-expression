@@ -9,7 +9,6 @@ import exceptions.ExpressaoIncorretaException;
 import exceptions.OperadorInvalidoException;
 import exceptions.SemEstadoFinalException;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -46,36 +45,32 @@ public class Main {
 
         System.out.println("\n[Digite a Expressão]\t{Obs.: Palavra vazia é denotada pelo símbolo $}\n");
         System.out.print("> ");
-        String er = input.nextLine();
-        System.out.println("\n[Expressão Regular Definida]\n");
-
-        return er;
+        return input.nextLine();
     }
 
     public static AFD definirAutomato(String er) {
         try {
-            return BuildAFD.criar(er);
+            AFD afd = BuildAFD.criar(er);
+            return afd;
         } catch (ExpressaoIncorretaException | SemEstadoFinalException | OperadorInvalidoException e) {
+            System.out.println();
             System.err.println(e.getMessage());
-            throw new RuntimeException(e);
+            System.out.println();
+            return null;
         }
     }
 
     public static void criarMealy(AFD afd) {
 
-        if (afd == null) {
-            System.out.println("\n[Defina uma expressão regular]\n");
-            return;
-        }
+        if (afd == null) return;
 
         MaquinaMealy mealy = new MaquinaMealy(afd);
-        String ppm = "";
         boolean escolhida = false;
+        int opc = 1;
 
         do {
 
             System.out.println("\n[Escolha a palavra de entrada]\n");
-            int opc;
             int cont = 1;
             for (Palavras p : Palavras.values()) {
                 System.out.println("\t" + cont + " - " + p);
@@ -88,30 +83,20 @@ public class Main {
                 System.out.println("\n[Opção inválida]\n");
 
             } else {
-                ppm = mealy.gerarPPM(Palavras.values()[opc - 1]);
                 escolhida = true;
             }
 
         } while (!escolhida);
 
-        FileWriter arq;
         try {
-            arq = new FileWriter("src/arquivos/fractal.ppm");
+            mealy.gerarPPM(Palavras.values()[opc - 1]);
         } catch (IOException e) {
-            System.err.println("\n[Não foi possível criar o arquivo PPM]\n");
+            System.err.println("[Erro ao gerar o arquivo da Máquina de Mealy]");
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            System.err.println("[Processo de criação do PPM foi interrompido]");
             throw new RuntimeException(e);
         }
-
-        try {
-            arq.write(ppm);
-            arq.close();
-
-        } catch (IOException e) {
-            System.err.println("\n[Não foi possível escrever no arquivo PPM]\n");
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("\n[PPM gerado com sucesso]\n");
     }
 
     public static void main(String[] args) {

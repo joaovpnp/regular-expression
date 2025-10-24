@@ -6,6 +6,9 @@ public class FormatadorER extends AutomatoBuilder {
 
     public static String inserirConcatenacaoExplicita(String er) {
 
+        if (er == null || er.isEmpty() || er.isBlank())
+            return er;
+
         StringBuilder s = new StringBuilder();
 
         for (int i = 0; i < er.length(); i++) {
