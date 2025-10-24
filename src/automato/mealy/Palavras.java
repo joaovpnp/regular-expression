@@ -1,11 +1,5 @@
 package automato.mealy;
 
-import leitura.LerArquivo;
-
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
-
 public enum Palavras {
 
     W4(4),
@@ -18,28 +12,13 @@ public enum Palavras {
     W512(512),
     W1024(1024);
 
-    private final int ordemGrid;
-    private final List<String> coordenadas;
+    private final String nomeArquivo;
 
     Palavras(int ordem) {
-        ordemGrid = ordem;
-
-        try {
-            String palavra = LerArquivo.lerPalavraMealy(ordem);
-            coordenadas = Arrays.stream(palavra.split("\\.")).toList();
-
-        } catch (FileNotFoundException e) {
-            System.err.println("[Não foi possível encontrar o arquivo para a palavra w%d]".formatted(ordem));
-            throw new RuntimeException(e);
-        }
+        this.nomeArquivo = "w%d.txt".formatted(ordem);
     }
 
-    public int getOrdemGrid() {
-        return ordemGrid;
+    public String getNomeArquivo() {
+        return nomeArquivo;
     }
-
-    public List<String> getCoordenadas() {
-        return coordenadas.stream().toList();
-    }
-
 }

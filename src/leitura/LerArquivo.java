@@ -1,7 +1,10 @@
 package leitura;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,4 +30,7 @@ public class LerArquivo {
         return palavra;
     }
 
+    public static void escrever(String caminho, String conteudo) throws IOException {
+        Files.writeString(Paths.get(caminho), conteudo);
+    }
 }
